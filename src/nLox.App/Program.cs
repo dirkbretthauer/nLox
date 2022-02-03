@@ -3,7 +3,7 @@
 using System;
 using System.Text;
 
-namespace RcpNameReader
+namespace nLox.App
 {
     internal class Program
     {
@@ -23,7 +23,5 @@ namespace RcpNameReader
                 Lox.RunPrompt();
             }
         }
-
-
     }
 }
