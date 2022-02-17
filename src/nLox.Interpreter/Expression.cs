@@ -44,9 +44,9 @@ namespace nLox.Interpreter
     }
     public class Literal : Expression
     {
-      public Object Value { get; }
+      public Object? Value { get; }
 
-      public Literal(Object Value)
+      public Literal(Object? Value)
       {
         this.Value = Value;
       }

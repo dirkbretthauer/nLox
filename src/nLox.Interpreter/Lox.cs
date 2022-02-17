@@ -38,10 +38,26 @@ namespace nLox.Interpreter
         {
             var scanner = new Scanner(source);
             List<Token> tokens = scanner.ScanTokens();
+            Parser parser = new Parser(tokens);
+            Expression? expression = parser.Parse();
 
-            foreach (var token in tokens)
+            // stop if there was a syntax error
+            if (hadError)
+                return;
+
+            if (expression != null)
+                Console.WriteLine(new AstPrinter().Print(expression));
+        }
+
+        internal static void Error(Token token, string message)
+        {
+            if (token.Type == TokenType.EOF)
             {
-                Console.WriteLine(token);
+                Report(token.Line, " at end", message);
+            }
+            else
+            {
+                Report(token.Line, $" at '{token.Lexeme}'", message);
             }
         }
 
