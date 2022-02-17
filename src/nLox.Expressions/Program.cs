@@ -16,10 +16,10 @@ namespace nLox.Expressions
             string outdir = args[0];
             DefineAst(outdir, "Expression", new[]
             {
-                "Binary     : Expression left, Token operatorToken, Expression right",
-                "Grouping   : Expression expression",
-                "Literal    : Object value",
-                "Unary      : Token operatorToken, Expression right",
+                "Binary     : Expression Left, Token OperatorToken, Expression Right",
+                "Grouping   : Expression Expression",
+                "Literal    : Object Value",
+                "Unary      : Token OperatorToken, Expression Right",
             });
         }
 
@@ -39,8 +39,8 @@ namespace nLox.Expressions
                 foreach (var type in types)
                 {
                     string className = type.Split(":")[0].Trim();
-                    string fields = type.Split(":")[1].Trim();
-                    DefineType(writer, baseName, className, fields);
+                    string properties = type.Split(":")[1].Trim();
+                    DefineType(writer, baseName, className, properties);
                 }
 
                 // The base Accept method
@@ -66,26 +66,26 @@ namespace nLox.Expressions
             writer.WriteLine("    }");
         }
 
-        private static void DefineType(StreamWriter writer, string baseName, string className, string fields)
+        private static void DefineType(StreamWriter writer, string baseName, string className, string properties)
         {
-            var fieldList = fields.Split(", ");
+            var propertyList = properties.Split(", ");
 
             writer.WriteLine($"    public class {className} : {baseName}");
             writer.WriteLine("    {");
 
             // Fields
-            foreach(var field in fieldList)
+            foreach(var property in propertyList)
             {
-                writer.WriteLine($"      private {field.Trim()};");
+                writer.WriteLine($"      public {property.Trim()} {{ get; }}");
             }
 
             writer.WriteLine();
 
             // Constructor
-            writer.WriteLine($"      public {className}({fields.Trim()})");
+            writer.WriteLine($"      public {className}({properties.Trim()})");
             writer.WriteLine("      {");
 
-            foreach(var field in fieldList)
+            foreach(var field in propertyList)
             {
                 string name = field.Split(' ')[1].Trim();
                 writer.WriteLine($"        this.{name} = {name};");
